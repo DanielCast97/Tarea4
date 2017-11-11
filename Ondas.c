@@ -1,1 +1,2 @@
 Archivo de onda
+//Ecuacion
