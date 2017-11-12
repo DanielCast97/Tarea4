@@ -29,7 +29,7 @@ for(i=0;i<129;i++)
 }
 fclose(data);
 
-// Resolver ecuacion de onda:
+// Resolver ecuacion de onda en 1D:
 float *Inicio = malloc(len*sizeof(float));
 float *Modify = malloc(len*sizeof(float));
 float *Time = malloc(len*sizeof(float));
@@ -41,23 +41,35 @@ float Form1=0.0;
 float Form2=0.0;
 float Form3=0.0;
 int j;
-for(i=0;i<5;i++) //Recorrido para tiempos
+for(i=0;i<cambio;i++) //Recorrido para tiempos
 {
-	for(j=1;j<5;j++) //Recorrido para nodos
+	for(j=1;j<len;j++) //Recorrido para nodos
 {
+		Form1 = (Inicio[j-1]-2*Inicio[j]+Inicio[j+1])*r;
+		Form2 = (2*Inicio[j]);
+		Form3 = (2*Inicio[j]-Time[j]);
+		if(j=1)
+{
+			Form1 = (alpha-2*Inicio[j]+Inicio[j+1])*r;
+			Modify[j] = Form1+Form3;
+}
 		if(i=0)
 {			
-			Form1 = (Inicio[j-1]-2*Inicio[j]+Inicio[j+1])*r;
-			Form2 = (2.0*Inicio[j]);
-			Form3 = (2.0*Inicio[j]-Time[j]);
 			Modify[j] = Form1+Form2;
-}		
 		else
 {
 			Modify[j] = Form1+Form3;
 }
+}		
+		if(j=len-1)
+{
+			Form1 = (Inicio[j-1]-2*Inicio[j]+omega)*r;
+			Modify[j] = Form1+Form3;
 }
 
+}
+	Time[j]=Inicio[j];
+	Inicio[j]=Modify[j];
 }
 
 
